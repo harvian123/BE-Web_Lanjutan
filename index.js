@@ -32,7 +32,7 @@ app.get('/', function(req,res){
     `)
 })
 app.post('/todo',function(req,res){
-    const sql = `INSERT INTO data (nama) VALUES (\'${req.body.nama}\')`
+    const sql = `INSERT INTO items (nama) VALUES (\'${req.body.nama}\')`
     conn.query(sql,function(err){
         if(err) 
             throw err
@@ -42,7 +42,7 @@ app.post('/todo',function(req,res){
 })
 
 app.get('/todo',function(req,res){
-    const sql = 'SELECT * FROM data'
+    const sql = 'SELECT * FROM items'
     conn.query(sql,function(err,result){
         if(err)
             throw err
@@ -52,7 +52,7 @@ app.get('/todo',function(req,res){
 })
 
 app.delete('/todo/:nama',function(req,res){
-    const query = `DELETE FROM data where nama=\'${req.params.nama}\'`
+    const query = `DELETE FROM items where nama=\'${req.params.nama}\'`
     conn.query(query,function(err,result){
         if(err)
             throw err
