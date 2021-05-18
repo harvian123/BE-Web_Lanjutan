@@ -1,9 +1,9 @@
 const express = require('express')
+const bodyparser = require('body-parser')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors')
 
-app.use(express.urlencoded())
 const corsOptions ={
     origin:'*',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -17,7 +17,10 @@ const conn = mysql.createConnection({
     password:'',
     database:'to_develop'
 })
+
 app.use(cors(corsOptions))
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded())
 
 conn.connect(function(err){
     if(err)
@@ -26,13 +29,13 @@ conn.connect(function(err){
 app.get('/', function(req,res){
     res.send(`
         <form method="post" action="/todo" style="margin-right:10px">
-            <input name="myInput"/>
+            <input name="nama"/>
             <input type="submit" value="tambahkan"/>
         </form>
     `)
 })
 app.post('/todo',function(req,res){
-    const sql = `INSERT INTO items (nama) VALUES (\'${req.body.myInput}\')`
+    const sql = `INSERT INTO items (nama) VALUES (\'${req.body.nama}\')`
     conn.query(sql,function(err){
         if(err) 
             throw err
@@ -51,8 +54,8 @@ app.get('/todo',function(req,res){
     })
 })
 
-app.delete('/todo/:nama',function(req,res){
-    const query = `DELETE FROM items where nama=\'${req.params.myInput}\'`
+app.delete('/todo/:Nama',function(req,res){
+    const query = `DELETE FROM items WHERE nama=\'${req.params.nama}\'`
     conn.query(query,function(err,result){
         if(err)
             throw err
