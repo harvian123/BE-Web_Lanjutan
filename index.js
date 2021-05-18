@@ -54,7 +54,7 @@ app.get('/todo',function(req,res){
     })
 })
 
-app.delete('/todo/:Nama',function(req,res){
+app.delete('/todo/:nama',function(req,res){
     const query = `DELETE FROM items WHERE nama=\'${req.params.nama}\'`
     conn.query(query,function(err,result){
         if(err)
