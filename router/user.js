@@ -5,14 +5,17 @@ const mysql = require('mysql')
 router.use(express.json())
 router.use(express.urlencoded())
 
-var connection = mysql.createConnection({
+var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'to_develop'
 })
 
-connection.connect()
+conn.connect(function(err){
+    if(err)
+        throw err
+})
 
 router.get('/user', function (req, res) {
     res.send(`
@@ -28,7 +31,7 @@ router.get('/user', function (req, res) {
     `)
 })
 
-router.post('/',function(req,res){
+router.post('/user',function(req,res){
     const sql = `INSERT INTO users (username, password) VALUES (\'${req.body.username}\', \'${req.body.password}\')`
     conn.query(sql,function(err){
         if(err) 
@@ -38,7 +41,7 @@ router.post('/',function(req,res){
     res.sendStatus(200)
 })
 
-router.get('/',function(req,res){
+router.get('/users',function(req,res){
     const sql = 'SELECT * FROM users'
     conn.query(sql,function(err,result){
         if(err)
@@ -48,7 +51,7 @@ router.get('/',function(req,res){
     })
 })
 
-router.delete('/:nama',function(req,res){
+router.delete('user/:id',function(req,res){
     const query = `DELETE FROM users WHERE id=\'${req.params.id}\'`
     conn.query(query,function(err,result){
         if(err)

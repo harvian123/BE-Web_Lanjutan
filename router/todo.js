@@ -26,7 +26,7 @@ router.get('/', function(req,res){
     `)
 })
 
-router.post('/',function(req,res){
+router.post('/todo',function(req,res){
     const sql = `INSERT INTO items (nama) VALUES (\'${req.body.nama}\')`
     conn.query(sql,function(err){
         if(err) 
@@ -36,7 +36,7 @@ router.post('/',function(req,res){
     res.sendStatus(200)
 })
 
-router.get('/',function(req,res){
+router.get('/todo',function(req,res){
     const sql = 'SELECT * FROM items'
     conn.query(sql,function(err,result){
         if(err)
@@ -46,7 +46,7 @@ router.get('/',function(req,res){
     })
 })
 
-router.delete('/:nama',function(req,res){
+router.delete('/todo/:nama',function(req,res){
     const query = `DELETE FROM items WHERE nama=\'${req.params.nama}\'`
     conn.query(query,function(err,result){
         if(err)
