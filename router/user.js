@@ -17,7 +17,7 @@ conn.connect(function(err){
         throw err
 })
 
-router.get('/user', function (req, res) {
+router.get('/', function (req, res) {
     res.send(`
         <html>
             <form action="/user" method="POST">
@@ -31,7 +31,7 @@ router.get('/user', function (req, res) {
     `)
 })
 
-router.post('/user',function(req,res){
+router.post('/',function(req,res){
     const sql = `INSERT INTO users (username, password) VALUES (\'${req.body.username}\', \'${req.body.password}\')`
     conn.query(sql,function(err){
         if(err) 
@@ -51,7 +51,7 @@ router.get('/users',function(req,res){
     })
 })
 
-router.delete('user/:id',function(req,res){
+router.delete('/:id',function(req,res){
     const query = `DELETE FROM users WHERE id=\'${req.params.id}\'`
     conn.query(query,function(err,result){
         if(err)
