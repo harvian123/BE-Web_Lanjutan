@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
-
+const auth = require('../middlewares/auth.js')
 router.use(express.json())
 router.use(express.urlencoded())
 
@@ -31,7 +31,17 @@ router.get('/', function (req, res) {
     `)
 })
 
-router.post('/',function(req,res){
+router.post('/',function(req,res,next){
+    const sql = `SELECT * FROM users`
+    conn.query(query, function(err,result){
+        if(err)
+            throw err
+        if(result.length > 0)
+            auth(req,res,next)
+        else
+            next()
+    })
+},function(req,res){
     const sql = `INSERT INTO users (username, password) VALUES (\'${req.body.username}\', \'${req.body.password}\')`
     conn.query(sql,function(err){
         if(err) 
@@ -51,7 +61,17 @@ router.get('/users',function(req,res){
     })
 })
 
-router.delete('/:id',function(req,res){
+router.delete('/:id',auth,(req,res,next) => {
+    const sql = 'SELECT * FROM users'
+    conn.query(sql, function(err,result){
+        if(err)
+            throw err
+        else if(result.length > 1)
+            next()
+        else
+            res.sendStatus(401)
+    })
+},function(req,res){
     const query = `DELETE FROM users WHERE id=\'${req.params.id}\'`
     conn.query(query,function(err,result){
         if(err)

@@ -10,15 +10,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
 
-app.get('/', function(req,res){
-    res.send(`
-        <form method="POST" action="/todo">
-            <input name="deskripsi"/>
-            <input type="submit" value="tambahkan"/>
-        </form>
-    `)
-})
-
 app.use('/todo', auth, routerTodos)
 app.use('/user', routerUsers)
 

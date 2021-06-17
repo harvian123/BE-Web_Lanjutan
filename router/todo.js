@@ -17,6 +17,15 @@ conn.connect(function(err){
         throw err
 })
 
+router.get('/', function (req, res) {
+    res.send(`
+        <form method="POST" action="/todo">
+            <input name="deskripsi"/>
+            <input type="submit" value="tambahkan"/>
+        </form>
+    `)
+})
+
 router.post('/',function(req,res){
     const sql = `INSERT INTO data (deskripsi) VALUES (\'${req.body.deskripsi}\')`
     conn.query(sql,function(err){
