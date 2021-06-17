@@ -27,7 +27,7 @@ router.post('/',function(req,res){
     res.sendStatus(200)
 })
 
-router.get('/',function(req,res){
+router.get('/todos',function(req,res){
     const sql = 'SELECT * FROM data'
     conn.query(sql,function(err,result){
         if(err)
