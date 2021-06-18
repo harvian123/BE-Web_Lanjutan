@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const mysql = require('mysql')
 
-router.use(express.json())
-router.use(express.urlencoded())
+// router.use(express.json())
+// router.use(express.urlencoded())
 
 const conn = mysql.createConnection({
     host:'localhost',
@@ -17,14 +17,14 @@ conn.connect(function(err){
         throw err
 })
 
-router.get('/', function (req, res) {
-    res.send(`
-        <form method="POST" action="/todo">
-            <input name="deskripsi"/>
-            <input type="submit" value="tambahkan"/>
-        </form>
-    `)
-})
+// router.get('/', function (req, res) {
+//     res.send(`
+//         <form method="POST" action="/todo">
+//             <input name="deskripsi"/>
+//             <input type="submit" value="tambahkan"/>
+//         </form>
+//     `)
+// })
 
 router.post('/',function(req,res){
     const sql = `INSERT INTO data (deskripsi) VALUES (\'${req.body.deskripsi}\')`
@@ -36,7 +36,7 @@ router.post('/',function(req,res){
     res.sendStatus(200)
 })
 
-router.get('/todos',function(req,res){
+router.get('/', function(req,res){
     const sql = 'SELECT * FROM data'
     conn.query(sql,function(err,result){
         if(err)
